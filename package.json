@@ -1,0 +1,65 @@
+{
+  "name": "thin-react-router",
+  "version": "0.1.0",
+  "description": "A thin react router which is just *KB",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib && rimraf dist",
+    "build:lib": "babel src --out-dir lib",
+    "build:umd": "cross-env NODE_ENV=development webpack --bail",
+    "build:umd:min": "cross-env NODE_ENV=production webpack --bail",
+    "build": "npm run clean && npm update && npm run lint && npm run build:lib && npm run build:umd && npm run build:umd:min",
+    "example": "webpack-dev-server --content-base example/ --config example/webpack.config.js",
+    "lint": "eslint src",
+    "test": "echo \"Test: TBD\"",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goldenyz/thin-react-router.git"
+  },
+  "keywords": [
+    "react",
+    "router",
+    "thin",
+    "simple",
+    "small"
+  ],
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
+  "author": "Allen Yang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goldenyz/thin-react-router/issues"
+  },
+  "homepage": "https://github.com/goldenyz/thin-react-router#readme",
+  "dependencies": {
+    "path-to-regexp": "^2.0.0",
+    "prop-types": "^15.6.0",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.6.1",
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-eslint": "*",
+    "babel-loader": "*",
+    "babel-plugin-add-module-exports": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
+    "babel-preset-stage-2": "*",
+    "cross-env": "*",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "*",
+    "rimraf": "*",
+    "webpack": "*",
+    "webpack-dev-server": "*"
+  }
+}
