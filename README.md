@@ -1,4 +1,5 @@
-# thin-react-router
+# thin-react-router [![Build Status](https://travis-ci.org/goldenyz/thin-react-router.svg?branch=master)](https://travis-ci.org/goldenyz/thin-react-router) [![npm](https://img.shields.io/npm/v/thin-react-router.svg?style=flat-square)](https://www.npmjs.com/package/thin-react-router) [![npm downloads](https://img.shields.io/npm/dm/thin-react-router.svg)](https://www.npmjs.com/package/thin-react-router)
+
 A thin react router which is just 9KB(gzip:3KB). It is especially suitable for small websites.
 If you want a more powerful router, please refer to [react-router](https://github.com/ReactTraining/react-router).
 
