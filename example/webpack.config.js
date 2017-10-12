@@ -7,8 +7,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 
   entry: {
-    'example': [
-      path.join(__dirname, 'index.js')
+    'basic': [
+      path.join(__dirname, './basic/index.js')
     ]
   },
 
@@ -53,7 +53,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'example.html',
+      filename: 'basic.html',
       template: path.join(__dirname, 'index.html'),
       inject: 'body',
     }),
@@ -63,6 +63,6 @@ module.exports = {
 
   devServer: {
     open: true,
-    openPage: '/example.html'
+    openPage: 'basic.html'
   }
 };
