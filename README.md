@@ -1,6 +1,6 @@
 # thin-react-router
 A thin react router which is just 9KB(gzip:3KB). It is especially suitable for small websites.
-If you want a more powerful router, please refer to (react-router)[https://github.com/ReactTraining/react-router].
+If you want a more powerful router, please refer to [react-router](https://github.com/ReactTraining/react-router).
 
 ## usage
 Install the package `npm install -S thin-react-router`

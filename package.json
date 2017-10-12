@@ -1,7 +1,7 @@
 {
   "name": "thin-react-router",
   "version": "0.1.0",
-  "description": "A thin react router which is just *KB",
+  "description": "A thin react router which is just 9KB",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf lib && rimraf dist",
@@ -36,7 +36,7 @@
   "bugs": {
     "url": "https://github.com/goldenyz/thin-react-router/issues"
   },
-  "homepage": "https://github.com/goldenyz/thin-react-router#readme",
+  "homepage": "https://github.com/goldenyz/thin-react-router",
   "dependencies": {
     "path-to-regexp": "^2.0.0",
     "react": ">=0.14.0",
