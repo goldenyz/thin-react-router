@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import pathToRegexp from 'path-to-regexp';
 
@@ -17,16 +17,14 @@ class Router extends Component {
       listen: PropTypes.func.isRequired,
       unlisten: PropTypes.func.isRequired,
     }).isRequired,
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        path: PropTypes.string.isRequired,
-        component: PropTypes.node.isRequired,
-        fallback: PropTypes.bool,
-        exact: PropTypes.bool,
-        strict: PropTypes.bool,
-        sensitive: PropTypes.bool,
-      }),
-    ).isRequired,
+    routes: PropTypes.arrayOf(PropTypes.shape({
+      path: PropTypes.string.isRequired,
+      component: PropTypes.func.isRequired,
+      fallback: PropTypes.bool,
+      exact: PropTypes.bool,
+      strict: PropTypes.bool,
+      sensitive: PropTypes.bool,
+    })).isRequired,
   };
 
   constructor(props) {
@@ -35,10 +33,13 @@ class Router extends Component {
     this.state = {
       location: this.props.history.getLocation(),
     };
+
+    const fallbackRoute = props.routes.find(route => route.fallback);
+    this._fallbackComponent = fallbackRoute && fallbackRoute.component;
   }
 
   getChildContext() {
-    const history = this.props;
+    const { history } = this.props;
 
     return {
       location: this.state.location,
@@ -53,32 +54,34 @@ class Router extends Component {
     history.listen(this.handleLocationChanged);
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     const { history } = this.props;
 
     history.unlisten(this.handleLocationChanged);
   }
 
   computeMatch(path, { exact, sensitive, strict }) {
-    const location = this.state.location;
+    const { location } = this.state;
 
     const params = {};
-    let isExact = false;
-    if (exact) {
-      isExact = location === path;
-    } else {
-      const keys = [];
-      const regexp = pathToRegexp(path, keys, {
-        sensitive,
-        strict,
-      });
-      const result = regexp.exec(path);
-      if (result) {
-        keys.forEach((keyItem, index) => {
-          params[keyItem.name] = result[index + 1];
-        });
-      }
+    let isExact = location === path;
+    if (exact && !isExact) {
+      return null;
     }
+
+    const keys = [];
+    const regexp = pathToRegexp(path, keys, {
+      sensitive,
+      strict,
+    });
+    const result = regexp.exec(path);
+    if (!result) {
+      return null;
+    }
+
+    keys.forEach((keyItem, index) => {
+      params[keyItem.name] = result[index + 1];
+    });
 
     return {
       params,
@@ -96,28 +99,30 @@ class Router extends Component {
     const { routes } = this.props;
 
     let RouteComponent;
-    let FallBackComponent;
-    routes.forEach((route) => {
-      if (!RouteComponent) {
-        const match = this.computeMatch(route.path, {
-          strict: route.strict,
-          exact: route.exact,
-          sensitive: route.sensitive,
-        });
+    let match = {};
+    routes.some((route) => {
+      const curMatch = this.computeMatch(route.path, {
+        strict: route.strict,
+        exact: route.exact,
+        sensitive: route.sensitive,
+      });
+      if (curMatch) {
+        match = curMatch;
+        RouteComponent = route.component;
+        return true;
       }
-
+      return false;
     });
 
-    const { component } = this.props;
-    const location = this.state.location;
-
-    const match = this.computeMatch();
+    const { location } = this.state;
     const props = { match, location };
+    RouteComponent = RouteComponent || this._fallbackComponent;
 
-    if (component) {
-      return match ? React.createElement(component, props) : null;
+    if (RouteComponent) {
+      return <RouteComponent {...props} />;
     }
 
+    return null;
   }
 }
 

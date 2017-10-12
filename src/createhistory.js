@@ -20,7 +20,7 @@ export function createHashHistory() {
   const listeners = [];
 
   function getLocation() {
-    const hash = window.location.hash;
+    const { hash } = window.location;
     const path = hash.slice(1) || '/';
 
     return path;

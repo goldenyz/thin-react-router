@@ -5,14 +5,12 @@ import { createBrowserHistory, createHashHistory } from './createhistory';
 
 function createHistoryRouter(createHistory) {
   const history = createHistory();
-  const HistoryRouter = () => (
-    <Router history={history}>
-      {this.props.children}
-    </Router>
+  const HistoryRouter = props => (
+    <Router history={history} routes={props.routes} />
   );
 
   HistoryRouter.propTypes = {
-    children: PropTypes.node.isRequired,
+    routes: PropTypes.array.isRequired,
   };
 
   return HistoryRouter;

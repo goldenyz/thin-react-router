@@ -4,34 +4,37 @@ import PropTypes from 'prop-types';
 const isModifiedEvent = event =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 
-function handleClick(evt) {
-  if (this.props.onClick) {
-    this.props.onClick(evt);
+function handleClick(evt, props, context) {
+  if (props.onClick) {
+    props.onClick(evt);
   }
 
   if (
     !evt.defaultPrevented && // onClick prevented default
     evt.button === 0 && // ignore everything but left clicks
-    !this.props.target && // let browser handle "target=_blank" etc.
+    !props.target && // let browser handle "target=_blank" etc.
     !isModifiedEvent(evt) // ignore clicks with modifier keys
   ) {
     evt.preventDefault();
 
-    const { redirectTo } = this.context.router;
-    const { replace, to } = this.props;
+    const { redirectTo } = context;
+    const { replace, to } = props;
 
     redirectTo(to, replace);
   }
 }
 
-const Link = () => {
-  const { replace, to, innerRef, children, ...props } = this.props;
+const Link = (props, context) => {
+  const {
+    replace, to, innerRef,
+    children, ...remainProps
+  } = props;
 
-  const href = this.context.createHref(to);
-  const onClick = handleClick.bind(this);
+  const href = context.createHref(to);
+  const onClick = evt => handleClick(evt, props, context);
 
   return (
-    <a {...props} onClick={onClick} href={href} ref={innerRef}>
+    <a {...remainProps} onClick={onClick} href={href} ref={innerRef}>
       {children}
     </a>
   );

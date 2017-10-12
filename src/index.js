@@ -1,3 +1,3 @@
-export { Router } from './router';
+export { default as Router } from './router';
 export { HashRouter, BrowserRouter } from './historyrouter';
-export { Link } from './link';
+export { default as Link } from './link';
